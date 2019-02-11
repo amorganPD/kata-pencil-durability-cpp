@@ -5,22 +5,22 @@
 #include <string>
 
 #include "paper.h"
+#include "consumable.h"
 
 using namespace std;
 
-class Consumable {
-  private:
-    uint16_t durability;
-    uint16_t length;
-};
-
 class Pencil {
   private:
-    Consumable point;
-    Consumable eraser;
+    Consumable Point;
+    Consumable Eraser;
 
   public:
-    void write(Paper& paper, const string text);
+    Pencil();
+    Pencil(uint16_t pointDurability);
+
+    void write(Paper&, const string);
+
+    uint16_t pointDurability();
 };
 
 #endif // __PENCIL_H_

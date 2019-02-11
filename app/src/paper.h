@@ -9,6 +9,7 @@ class Paper {
   public:
     string text;
     Paper();
+    Paper(string initialText);
 };
 
 #endif // __PAPER_H_
