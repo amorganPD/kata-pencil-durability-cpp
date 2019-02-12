@@ -14,6 +14,8 @@ class Pencil {
     Consumable Point;
     Consumable Graphite;
     Consumable Eraser;
+    bool IsUppercase(const char);
+    bool IsLowercase(const char);
     uint8_t GetCharCost(char);
 
   public:
@@ -23,6 +25,8 @@ class Pencil {
     Pencil(uint16_t, uint16_t, uint16_t);
 
     void write(Paper&, const string);
+    void edit(Paper&, const string, const uint16_t);
+
     uint16_t sharpen();
     bool erase(Paper&, const string);
     uint16_t getTextCost(string text);

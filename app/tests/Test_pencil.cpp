@@ -131,3 +131,19 @@ TEST(pencil, tryEraseOneWordWithNotEnoughDurability_ExpectPartialWordErased) {
   testPencil.erase(testPaper, "Bill");
   CHECK("Buffalo B   " == testPaper.text);
 }
+
+TEST(pencil, tryToEditEmptySpace_ExpectOverwrittenWord) {
+  Pencil testPencil;
+  Paper testPaper("An       a day keeps the doctor away");
+
+  testPencil.edit(testPaper, "onion", 3);
+  CHECK("An onion a day keeps the doctor away" == testPaper.text);
+}
+
+TEST(pencil, tryToEditOverText_ExpectOverwrittenWordAndConflictSymbol) {
+  Pencil testPencil;
+  Paper testPaper("An       a day keeps the doctor away");
+
+  testPencil.edit(testPaper, "artichoke", 3);
+  CHECK("An artich@k@ay keeps the doctor away" == testPaper.text);
+}
