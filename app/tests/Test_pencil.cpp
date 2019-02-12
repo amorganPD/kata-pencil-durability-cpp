@@ -61,7 +61,7 @@ TEST(pencil, tryWriteWhenNotEnoughDurability_ExpectSpaceAtEnd) {
   string testString = "Text";
   
   testPencil.write(testPaper, testString);
-  uint16_t textCost = testPencil.getStringCost(testString);
+  uint16_t textCost = testPencil.getTextCost(testString);
 
   CHECK_EQUAL(5, textCost);
   CHECK("Tex " == testPaper.text);
@@ -77,7 +77,7 @@ TEST(pencil, trySharpenOnce_ExpectFullPointDurability_Lose1GraphiteDurability) {
   uint16_t defaultGraphiteDurability = testPencil.graphiteDurability();
   
   testPencil.write(testPaper, testString);
-  uint16_t textCost = testPencil.getStringCost(testString);
+  uint16_t textCost = testPencil.getTextCost(testString);
   CHECK_EQUAL(defaultPointDurability - textCost, testPencil.pointDurability());
 
   CHECK_EQUAL(defaultGraphiteDurability - 1, testPencil.sharpen());
@@ -91,17 +91,36 @@ TEST(pencil, trySharpenOnceAtEnd_ExpectNoPointDurabilityChange_GraphiteDurabilit
   Paper testPaper;
   string testString = "Sharpen Test";
 
-  uint16_t expectedDurability = (uint16_t)(testPencil.pointDurability() - testPencil.getStringCost(testString));
+  uint16_t expectedDurability = (uint16_t)(testPencil.pointDurability() - testPencil.getTextCost(testString));
   testPencil.write(testPaper, testString);
   CHECK_EQUAL(expectedDurability, testPencil.pointDurability());
   
   CHECK_EQUAL(0, testPencil.sharpen());
   CHECK_EQUAL(defaultPointDurability, testPencil.pointDurability());
 
-  expectedDurability = (uint16_t)(testPencil.pointDurability() - testPencil.getStringCost(testString));
+  expectedDurability = (uint16_t)(testPencil.pointDurability() - testPencil.getTextCost(testString));
   testPencil.write(testPaper, testString);
   CHECK_EQUAL(expectedDurability, testPencil.pointDurability());
 
   CHECK_EQUAL(0, testPencil.sharpen());
   CHECK_EQUAL(expectedDurability, testPencil.pointDurability());
+}
+
+TEST(pencil, tryEraseOneWord_ExpectWordErased) {
+  Pencil testPencil;
+  string testString = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?";
+  Paper testPaper(testString);
+
+  testPencil.erase(testPaper, "chuck");
+  CHECK("How much wood would a woodchuck chuck if a woodchuck could       wood?" == testPaper.text);
+}
+
+TEST(pencil, tryEraseTwoWords_ExpectTwoWordsErased) {
+  Pencil testPencil;
+  string testString = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?";
+  Paper testPaper(testString);
+
+  testPencil.erase(testPaper, "chuck");
+  testPencil.erase(testPaper, "chuck");
+  CHECK("How much wood would a woodchuck chuck if a wood      could       wood?" == testPaper.text);
 }

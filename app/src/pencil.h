@@ -14,6 +14,7 @@ class Pencil {
     Consumable Point;
     Consumable Graphite;
     Consumable Eraser;
+    uint8_t GetCharCost(char);
 
   public:
     Pencil();
@@ -22,8 +23,8 @@ class Pencil {
 
     void write(Paper&, const string);
     uint16_t sharpen();
-    uint8_t getCharCost(char);
-    uint16_t getStringCost(string text);
+    bool erase(Paper&, const string);
+    uint16_t getTextCost(string text);
 
     uint16_t pointDurability();
     uint16_t graphiteDurability();
