@@ -20,6 +20,7 @@ class Pencil {
     Pencil();
     Pencil(uint16_t);
     Pencil(uint16_t, uint16_t);
+    Pencil(uint16_t, uint16_t, uint16_t);
 
     void write(Paper&, const string);
     uint16_t sharpen();

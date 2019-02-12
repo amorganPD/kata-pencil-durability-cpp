@@ -1,8 +1,6 @@
 #include "CppUTest/TestHarness.h"
 #include "pencil.h"
 
-#include <iostream>
-
 using namespace std;
 
 TEST_GROUP(pencil) {
@@ -123,4 +121,13 @@ TEST(pencil, tryEraseTwoWords_ExpectTwoWordsErased) {
   testPencil.erase(testPaper, "chuck");
   testPencil.erase(testPaper, "chuck");
   CHECK("How much wood would a woodchuck chuck if a wood      could       wood?" == testPaper.text);
+}
+
+TEST(pencil, tryEraseOneWordWithNotEnoughDurability_ExpectPartialWordErased) {
+  Pencil testPencil(1000, 100, 3);
+  string testString = "Buffalo Bill";
+  Paper testPaper(testString);
+
+  testPencil.erase(testPaper, "Bill");
+  CHECK("Buffalo B   " == testPaper.text);
 }

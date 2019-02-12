@@ -15,9 +15,10 @@ uint8_t Pencil::GetCharCost(char singleChar) {
 }
 
 /* Public */
-Pencil::Pencil() : Point(1000), Graphite(100) {}
-Pencil::Pencil(uint16_t pointDurability) : Point(pointDurability) {}
-Pencil::Pencil(uint16_t pointDurability, uint16_t graphiteDurability) : Point(pointDurability), Graphite(graphiteDurability) {}
+Pencil::Pencil() : Point(1000), Graphite(100), Eraser(100) {}
+Pencil::Pencil(uint16_t pointDurability) : Point(pointDurability), Graphite(100), Eraser(100) {}
+Pencil::Pencil(uint16_t pointDurability, uint16_t graphiteDurability) : Point(pointDurability), Graphite(graphiteDurability), Eraser(100) {}
+Pencil::Pencil(uint16_t pointDurability, uint16_t graphiteDurability, uint16_t eraserDurability) : Point(pointDurability), Graphite(graphiteDurability), Eraser(eraserDurability) {}
 
 uint16_t Pencil::pointDurability() {
   return Point.length();
@@ -48,9 +49,11 @@ uint16_t Pencil::sharpen() {
 
 bool Pencil::erase(Paper& paper, const string text) {
   // get replacement
-  string erasedText = "";  
-  for(string::size_type i = 0; i < text.size(); ++i) {
-    erasedText += " ";
+  string erasedText = text;  
+  for(string::size_type i = text.size(); i > 0; --i) {
+    if(Eraser.consume((text[i - 1] == ' ') ? 0 : 1)) {
+      erasedText[i - 1] = ' ';
+    }
   }
 
   // find word
