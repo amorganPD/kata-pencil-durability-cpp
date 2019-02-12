@@ -34,3 +34,23 @@ TEST(pencil, tryPointDurabilityOver9000_ExpectOver9000) {
   Pencil testPencil(9001);
   CHECK_EQUAL(9001, testPencil.pointDurability());
 }
+
+TEST(pencil, tryAllUppercase_ExpectLenghtTimes2DurabilityLoss) {
+  Pencil testPencil(9001);
+  Paper testPaper;
+  string testString = "TEST";
+  
+  testPencil.write(testPaper, testString);
+
+  CHECK_EQUAL(9001 - testString.length()*(uint8_t)COST_UPPERCASE, testPencil.pointDurability());
+}
+
+TEST(pencil, tryAllLowercase_ExpectLenghtTimes1DurabilityLoss) {
+  Pencil testPencil(9001);
+  Paper testPaper;
+  string testString = "test";
+  
+  testPencil.write(testPaper, testString);
+
+  CHECK_EQUAL(9001 - testString.length()*(uint8_t)COST_LOWERCASE, testPencil.pointDurability());
+}

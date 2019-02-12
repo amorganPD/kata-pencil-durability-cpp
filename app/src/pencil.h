@@ -19,8 +19,15 @@ class Pencil {
     Pencil(uint16_t pointDurability);
 
     void write(Paper&, const string);
+    uint8_t getCharCost(char);
 
     uint16_t pointDurability();
+};
+
+enum CHARCOST {
+  COST_NONE = 0,
+  COST_LOWERCASE,
+  COST_UPPERCASE
 };
 
 #endif // __PENCIL_H_
