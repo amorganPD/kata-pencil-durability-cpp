@@ -11,7 +11,7 @@ const uint16_t& Consumable::length(){
   return Length;
 }
 
-bool Consumable::Consume(uint16_t cost) {
+bool Consumable::consume(uint16_t cost) {
   if (Length < cost) {
     Length = 0;
     return false;
@@ -20,4 +20,9 @@ bool Consumable::Consume(uint16_t cost) {
     Length = (uint16_t)(Length - cost);
   }
   return true;
+}
+
+uint16_t Consumable::restoreLength() {
+  Length = Durability;
+  return Length;
 }

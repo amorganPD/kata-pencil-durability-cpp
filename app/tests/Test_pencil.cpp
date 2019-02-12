@@ -54,3 +54,54 @@ TEST(pencil, tryAllLowercase_ExpectLenghtTimes1DurabilityLoss) {
 
   CHECK_EQUAL(9001 - testString.length()*(uint8_t)COST_LOWERCASE, testPencil.pointDurability());
 }
+
+TEST(pencil, tryWriteWhenNotEnoughDurability_ExpectSpaceAtEnd) {
+  Pencil testPencil(4);
+  Paper testPaper;
+  string testString = "Text";
+  
+  testPencil.write(testPaper, testString);
+  uint16_t textCost = testPencil.getStringCost(testString);
+
+  CHECK_EQUAL(5, textCost);
+  CHECK("Tex " == testPaper.text);
+  CHECK_EQUAL(0, testPencil.pointDurability());
+}
+
+TEST(pencil, trySharpenOnce_ExpectFullPointDurability_Lose1GraphiteDurability) {
+  Pencil testPencil;
+  Paper testPaper;
+  string testString = "Sharpen Test";
+
+  uint16_t defaultPointDurability = testPencil.pointDurability();
+  uint16_t defaultGraphiteDurability = testPencil.graphiteDurability();
+  
+  testPencil.write(testPaper, testString);
+  uint16_t textCost = testPencil.getStringCost(testString);
+  CHECK_EQUAL(defaultPointDurability - textCost, testPencil.pointDurability());
+
+  CHECK_EQUAL(defaultGraphiteDurability - 1, testPencil.sharpen());
+}
+
+TEST(pencil, trySharpenOnceAtEnd_ExpectNoPointDurabilityChange_GraphiteDurability0) {
+  uint16_t defaultPointDurability = 1000;
+  uint16_t defaultGraphiteDurability = 1;
+
+  Pencil testPencil(defaultPointDurability, defaultGraphiteDurability);
+  Paper testPaper;
+  string testString = "Sharpen Test";
+
+  uint16_t expectedDurability = (uint16_t)(testPencil.pointDurability() - testPencil.getStringCost(testString));
+  testPencil.write(testPaper, testString);
+  CHECK_EQUAL(expectedDurability, testPencil.pointDurability());
+  
+  CHECK_EQUAL(0, testPencil.sharpen());
+  CHECK_EQUAL(defaultPointDurability, testPencil.pointDurability());
+
+  expectedDurability = (uint16_t)(testPencil.pointDurability() - testPencil.getStringCost(testString));
+  testPencil.write(testPaper, testString);
+  CHECK_EQUAL(expectedDurability, testPencil.pointDurability());
+
+  CHECK_EQUAL(0, testPencil.sharpen());
+  CHECK_EQUAL(expectedDurability, testPencil.pointDurability());
+}

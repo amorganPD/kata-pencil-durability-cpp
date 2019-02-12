@@ -14,7 +14,8 @@ class Consumable {
     Consumable(uint16_t durability);
 
     const uint16_t& length();
-    bool Consume(uint16_t);
+    bool consume(uint16_t);
+    uint16_t restoreLength();
 };
 
 #endif // __CONSUMABLE_H_
