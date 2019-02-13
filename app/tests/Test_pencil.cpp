@@ -147,3 +147,11 @@ TEST(pencil, tryToEditOverText_ExpectOverwrittenWordAndConflictSymbol) {
   testPencil.edit(testPaper, "artichoke", 3);
   CHECK("An artich@k@ay keeps the doctor away" == testPaper.text);
 }
+
+TEST(pencil, tryToEditOverUppercaseText_ExpectOverwrittenWordAndConflictSymbol) {
+  Pencil testPencil;
+  Paper testPaper("An       A day keeps the doctor away");
+
+  testPencil.edit(testPaper, "artichoke", 3);
+  CHECK("An artich@k@ay keeps the doctor away" == testPaper.text);
+}

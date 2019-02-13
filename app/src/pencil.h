@@ -20,16 +20,16 @@ class Pencil {
 
   public:
     Pencil();
-    Pencil(uint16_t);
-    Pencil(uint16_t, uint16_t);
-    Pencil(uint16_t, uint16_t, uint16_t);
+    Pencil(uint16_t pointDurability);
+    Pencil(uint16_t pointDurability, uint16_t graphiteDurability);
+    Pencil(uint16_t pointDurability, uint16_t graphiteDurability, uint16_t eraserDurability);
 
     void write(Paper&, const string);
     void edit(Paper&, const string, const uint16_t);
 
     uint16_t sharpen();
     bool erase(Paper&, const string);
-    uint16_t getTextCost(string text);
+    uint16_t getTextCost(string);
 
     uint16_t pointDurability();
     uint16_t graphiteDurability();

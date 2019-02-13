@@ -51,13 +51,13 @@ void Pencil::write(Paper& paper, const string text) {
 }
 
 /*
-### Assumption
+### Assumption:
 - It is unclear in the spec if editing costs point durability.
 - It will be assumed that it does, but the conflict symbol `@` will not cost durability
 */
 void Pencil::edit(Paper& paper, const string text, const uint16_t position) {
   for(string::size_type i = 0; i < text.size(); ++i) {
-    char character = (IsLowercase(paper.text[position + i]) || IsLowercase(paper.text[position + i])) ? '@' : text[i];
+    char character = (IsUppercase(paper.text[position + i]) || IsLowercase(paper.text[position + i])) ? '@' : text[i];
     if (Point.consume(GetCharCost(character)) ) {
       paper.text[position + i] = character;
     }
@@ -67,6 +67,9 @@ void Pencil::edit(Paper& paper, const string text, const uint16_t position) {
   }
 }
 
+/*
+Returns updated length
+*/
 uint16_t Pencil::sharpen() {
   if (Graphite.consume(1)) {
     Point.restoreLength();
@@ -75,25 +78,17 @@ uint16_t Pencil::sharpen() {
 }
 
 bool Pencil::erase(Paper& paper, const string text) {
-  // get replacement
-  string erasedText = text;  
-  for(string::size_type i = text.size(); i > 0; --i) {
-    if(Eraser.consume((text[i - 1] == ' ') ? 0 : 1)) {
-      erasedText[i - 1] = ' ';
-    }
-  }
+  size_t foundPosition = paper.text.rfind(text);
 
-  // find word
-  string::size_type position = string::npos;
-  string::size_type foundPosition = 0;
-  do {
-    position = paper.text.find(text, foundPosition);
-    foundPosition = position != string::npos ? position + 1 : foundPosition;
-  } while(position != string::npos);
-
-  // replace
   if (foundPosition != string::npos) {
-    paper.text.replace(foundPosition - 1, erasedText.size(), erasedText);
+    string erasedText = text;  
+    for(string::size_type i = text.size(); i > 0; --i) {
+      // Could pullout as erase_char()
+      if(Eraser.consume((text[i - 1] == ' ') ? 0 : 1)) {
+        erasedText[i - 1] = ' ';
+      }
+    }
+    paper.text.replace(foundPosition, erasedText.size(), erasedText);
     return true;
   }
 

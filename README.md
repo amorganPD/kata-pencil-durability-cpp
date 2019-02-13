@@ -7,7 +7,7 @@ To build and run the unit test do the following:
 
 ```bash
 docker build . -t unittests:latest
-docker run -itv /$(PWD):/project unittests:latest
+docker run --rm -itv /$(PWD):/project unittests:latest
 ``` 
 
 Reference: https://github.com/amorganPD/cpputest-starter-docker
