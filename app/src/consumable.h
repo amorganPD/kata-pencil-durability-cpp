@@ -6,7 +6,7 @@
 using namespace std;
 
 class Consumable {
-  private:
+  protected:
     uint16_t Durability;
     uint16_t Length;
   public:
@@ -15,6 +15,12 @@ class Consumable {
 
     const uint16_t& length();
     bool consume(uint16_t);
+};
+
+class Renewable: public Consumable {
+  public:
+    Renewable();
+    Renewable(uint16_t durability);
     uint16_t restoreLength();
 };
 

@@ -11,7 +11,7 @@ using namespace std;
 
 class Pencil {
   private:
-    Consumable Point;
+    Renewable Point;
     Consumable Graphite;
     Consumable Eraser;
     bool IsUppercase(const char);

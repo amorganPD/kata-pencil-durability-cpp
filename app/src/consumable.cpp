@@ -1,7 +1,6 @@
 #include "consumable.h"
 
 Consumable::Consumable() {}
-
 Consumable::Consumable(uint16_t durability) {
   Durability = durability;
   Length = durability;
@@ -22,7 +21,16 @@ bool Consumable::consume(uint16_t cost) {
   return true;
 }
 
-uint16_t Consumable::restoreLength() {
+/*
+Renewable Class derived from Consumable
+*/
+uint16_t Renewable::restoreLength() {
   Length = Durability;
   return Length;
+}
+
+Renewable::Renewable() {}
+Renewable::Renewable(uint16_t durability) {
+  Durability = durability;
+  Length = durability;
 }

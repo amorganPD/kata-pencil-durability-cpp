@@ -84,8 +84,10 @@ bool Pencil::erase(Paper& paper, const string text) {
     string erasedText = text;  
     for(string::size_type i = text.size(); i > 0; --i) {
       // Could pullout as erase_char()
-      if(Eraser.consume((text[i - 1] == ' ') ? 0 : 1)) {
-        erasedText[i - 1] = ' ';
+      if (text[i - 1] != ' ') {
+        if (Eraser.consume(1)) {
+          erasedText[i - 1] = ' ';
+        }
       }
     }
     paper.text.replace(foundPosition, erasedText.size(), erasedText);
