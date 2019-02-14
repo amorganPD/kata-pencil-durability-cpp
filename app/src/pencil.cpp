@@ -72,7 +72,7 @@ Returns updated length
 */
 uint16_t Pencil::sharpen() {
   if (Graphite.consume(1)) {
-    Point.restoreLength();
+    Point.renewLength();
   }
   return Graphite.length();
 }

@@ -21,7 +21,7 @@ class Renewable: public Consumable {
   public:
     Renewable();
     Renewable(uint16_t durability);
-    uint16_t restoreLength();
+    uint16_t renewLength();
 };
 
 #endif // __CONSUMABLE_H_

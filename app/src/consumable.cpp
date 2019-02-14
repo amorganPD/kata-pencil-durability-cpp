@@ -24,7 +24,7 @@ bool Consumable::consume(uint16_t cost) {
 /*
 Renewable Class derived from Consumable
 */
-uint16_t Renewable::restoreLength() {
+uint16_t Renewable::renewLength() {
   Length = Durability;
   return Length;
 }
